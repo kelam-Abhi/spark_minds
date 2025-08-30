@@ -95,16 +95,6 @@ A professional, modern Learning Management System built for Maganti Company with
 npm run build
 ```
 
-## 🔑 Demo Login
-
-For testing purposes, use these demo credentials:
-
-| Role | Email | Password |
-|------|-------|----------|
-| **Admin** | `admin@maganti.com` | `password123` |
-| **Mentor** | `mentor@maganti.com` | `password123` |
-| **Trainee** | `trainee@maganti.com` | `password123` |
-
 ## 📁 Project Structure
 
 ```
