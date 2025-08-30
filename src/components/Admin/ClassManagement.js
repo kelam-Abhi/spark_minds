@@ -205,7 +205,7 @@ const ClassManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4 mr-2" />
           Schedule New Class
@@ -382,11 +382,11 @@ const ClassManagement = () => {
 
               {/* Class Actions */}
               <div className="flex space-x-2">
-                <button className="btn-secondary flex-1">
+                <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Eye className="w-4 h-4 mr-1" />
                   View Details
                 </button>
-                <button className="btn-primary flex-1">
+                <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Users className="w-4 h-4 mr-1" />
                   Manage Enrollment
                 </button>
@@ -561,13 +561,13 @@ const ClassManagement = () => {
                       description: ''
                     });
                   }}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={editingClass ? handleUpdateClass : handleAddClass}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   {editingClass ? 'Update Class' : 'Schedule Class'}
                 </button>

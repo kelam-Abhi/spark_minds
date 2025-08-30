@@ -337,7 +337,7 @@ const CourseManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4 mr-2" />
           Create New Course
@@ -478,14 +478,14 @@ const CourseManagement = () => {
               {/* Course Actions */}
               <div className="mt-4 flex space-x-2">
                 <button 
-                  className="btn-secondary flex-1"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1"
                   onClick={() => handleViewCourseDetails(course)}
                 >
                   <Eye className="w-4 h-4 mr-1" />
                   View Details
                 </button>
                 <button 
-                  className="btn-primary flex-1"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1"
                   onClick={() => handleManageTrainees(course)}
                 >
                   <Users className="w-4 h-4 mr-1" />
@@ -611,13 +611,13 @@ const CourseManagement = () => {
                       ]
                     });
                   }}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={editingCourse ? handleUpdateCourse : handleAddCourse}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   {editingCourse ? 'Update Course' : 'Create Course'}
                 </button>
@@ -793,13 +793,13 @@ const CourseManagement = () => {
               <div className="flex justify-end space-x-3 pt-4 border-t">
                 <button
                   onClick={() => setShowCourseDetails(false)}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveCourseDetails}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   <Save className="w-4 h-4 mr-2" />
                   Save Changes
@@ -857,7 +857,7 @@ const CourseManagement = () => {
                 </div>
                 <button
                   onClick={handleAddTrainee}
-                  className="mt-3 btn-primary"
+                  className="mt-3 flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
                   Add Trainee

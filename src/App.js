@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Layout from './components/Layout/Layout';
-import Login from './components/Auth/Login';
+import LoginForm from './components/Auth/LoginForm';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import MentorDashboard from './components/Dashboard/MentorDashboard';
 import TraineeDashboard from './components/Dashboard/TraineeDashboard';
@@ -51,7 +51,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
         
         {/* Direct Dashboard Routes - Simplified Structure */}

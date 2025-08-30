@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { ClipboardList, FileText, Code, Upload, CheckCircle, Clock, AlertCircle, Eye, Download, Send, Plus } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { ClipboardList, FileText, Code, Upload, CheckCircle, Clock, AlertCircle, Eye, Download, Send, Plus, BookOpen, User, Target } from 'lucide-react';
 
 const TraineeAssignments = () => {
+  const { user } = useAuth(); // Get user data from AuthContext
   const [activeTab, setActiveTab] = useState('pending');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
-  // Mock data for assignments
-  const pendingAssignments = [
+  // Mock data for assignments - all courses
+  const allPendingAssignments = [
+    // React Development Assignments
     {
       id: 1,
       title: 'Build a Todo App',
@@ -24,6 +27,20 @@ const TraineeAssignments = () => {
     },
     {
       id: 2,
+      title: 'React Component Library',
+      type: 'Coding',
+      course: 'React Development',
+      dueDate: '2024-01-22',
+      status: 'Not Started',
+      progress: 0,
+      description: 'Create a reusable component library with Storybook documentation',
+      requirements: ['10+ reusable components', 'Storybook stories', 'TypeScript support', 'Unit tests'],
+      estimatedTime: '8 hours',
+      difficulty: 'Advanced'
+    },
+    // Testing Fundamentals Assignments
+    {
+      id: 3,
       title: 'API Testing Suite',
       type: 'Project',
       course: 'Testing Fundamentals',
@@ -36,24 +53,57 @@ const TraineeAssignments = () => {
       difficulty: 'Advanced'
     },
     {
-      id: 3,
-      title: 'Cloud Migration Plan',
-      type: 'Documentation',
-      course: 'Cloud Architecture',
+      id: 4,
+      title: 'Test Automation Framework',
+      type: 'Coding',
+      course: 'Testing Fundamentals',
       dueDate: '2024-01-25',
+      status: 'In Progress',
+      progress: 40,
+      description: 'Build a test automation framework using Selenium and Python',
+      requirements: ['Page Object Model', 'Test data management', 'Reporting system', 'Cross-browser support'],
+      estimatedTime: '10 hours',
+      difficulty: 'Advanced'
+    },
+    // DotNet Development Assignments
+    {
+      id: 5,
+      title: 'Web API with Entity Framework',
+      type: 'Coding',
+      course: 'DotNet Development',
+      dueDate: '2024-01-20',
       status: 'Not Started',
       progress: 0,
-      description: 'Design a migration strategy for moving on-premise applications to cloud',
-      requirements: ['Risk assessment', 'Cost analysis', 'Timeline planning', 'Rollback strategy'],
-      estimatedTime: '8 hours',
+      description: 'Create a RESTful Web API using ASP.NET Core and Entity Framework',
+      requirements: ['CRUD operations', 'Database relationships', 'Authentication', 'Swagger documentation'],
+      estimatedTime: '12 hours',
+      difficulty: 'Intermediate'
+    },
+    {
+      id: 6,
+      title: 'Blazor Server App',
+      type: 'Coding',
+      course: 'DotNet Development',
+      dueDate: '2024-01-28',
+      status: 'Not Started',
+      progress: 0,
+      description: 'Build a Blazor Server application with real-time updates',
+      requirements: ['SignalR integration', 'User authentication', 'Database operations', 'Responsive UI'],
+      estimatedTime: '15 hours',
       difficulty: 'Advanced'
     }
   ];
 
-  const completedAssignments = [
+  // Filter assignments based on user's enrolled course
+  const pendingAssignments = allPendingAssignments.filter(
+    assignment => assignment.course === user?.enrolledCourse
+  );
+
+  const allCompletedAssignments = [
+    // React Development Completed
     {
-      id: 4,
-      title: 'React Component Library',
+      id: 1,
+      title: 'React Hooks Basics',
       type: 'Coding',
       course: 'React Development',
       submittedDate: '2024-01-10',
@@ -61,8 +111,9 @@ const TraineeAssignments = () => {
       feedback: 'Excellent work! The components are well-structured and follow best practices. Great use of TypeScript.',
       mentor: 'Dr. Sarah Johnson'
     },
+    // Testing Fundamentals Completed
     {
-      id: 5,
+      id: 2,
       title: 'Testing Fundamentals Quiz',
       type: 'Test',
       course: 'Testing Fundamentals',
@@ -70,10 +121,27 @@ const TraineeAssignments = () => {
       score: 88,
       feedback: 'Good understanding of testing concepts. Consider exploring more advanced testing patterns.',
       mentor: 'Prof. Mike Chen'
+    },
+    // DotNet Development Completed
+    {
+      id: 3,
+      title: 'C# Fundamentals',
+      type: 'Coding',
+      course: 'DotNet Development',
+      submittedDate: '2024-01-05',
+      score: 92,
+      feedback: 'Great understanding of C# basics. Your code is clean and well-organized.',
+      mentor: 'Prof. David Wilson'
     }
   ];
 
-  const upcomingTests = [
+  // Filter completed assignments based on user's enrolled course
+  const completedAssignments = allCompletedAssignments.filter(
+    assignment => assignment.course === user?.enrolledCourse
+  );
+
+  const allUpcomingTests = [
+    // React Development Tests
     {
       id: 1,
       title: 'React Hooks Assessment',
@@ -86,6 +154,17 @@ const TraineeAssignments = () => {
     },
     {
       id: 2,
+      title: 'React State Management',
+      course: 'React Development',
+      date: '2024-01-26',
+      duration: '45 min',
+      questions: 20,
+      topics: ['Redux', 'Context API', 'useReducer', 'State patterns'],
+      instructions: 'Practical test focusing on state management concepts.'
+    },
+    // Testing Fundamentals Tests
+    {
+      id: 3,
       title: 'Testing Best Practices',
       course: 'Testing Fundamentals',
       date: '2024-01-24',
@@ -93,8 +172,24 @@ const TraineeAssignments = () => {
       questions: 20,
       topics: ['Unit testing', 'Integration testing', 'Mocking', 'Test coverage'],
       instructions: 'Practical test with coding questions. Ensure your development environment is ready.'
+    },
+    // DotNet Development Tests
+    {
+      id: 4,
+      title: 'C# Advanced Concepts',
+      course: 'DotNet Development',
+      date: '2024-01-23',
+      duration: '90 min',
+      questions: 30,
+      topics: ['LINQ', 'Async/Await', 'Generics', 'Delegates'],
+      instructions: 'Advanced C# concepts test. No external resources allowed.'
     }
   ];
+
+  // Filter tests based on user's enrolled course
+  const upcomingTests = allUpcomingTests.filter(
+    test => test.course === user?.enrolledCourse
+  );
 
   const handleStartAssignment = (assignment) => {
     setSelectedAssignment(assignment);
@@ -161,6 +256,24 @@ const TraineeAssignments = () => {
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">My Assignments</h1>
         <p className="text-gray-600">Track, submit, and review your assignments and tests</p>
+        {user?.enrolledCourse && (
+          <div className="mt-3 flex flex-wrap gap-3">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+              <BookOpen className="h-4 w-4 mr-2" />
+              Enrolled in: {user.enrolledCourse}
+            </div>
+            {user?.assignedMentor && (
+              <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                <User className="h-4 w-4 mr-2" />
+                Mentor: {user.assignedMentor}
+              </div>
+            )}
+            <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+              <Target className="h-4 w-4 mr-2" />
+              Single Course System
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Quick Stats */}
@@ -317,11 +430,11 @@ const TraineeAssignments = () => {
                       </ul>
                     </div>
 
-                    <div className="flex space-x-3">
+                    <div className="flex items-center justify-start space-x-4 mt-4">
                       {assignment.progress === 0 ? (
                         <button
                           onClick={() => handleStartAssignment(assignment)}
-                          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                          className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
                         >
                           <Plus className="h-4 w-4 mr-2" />
                           Start Assignment
@@ -329,13 +442,13 @@ const TraineeAssignments = () => {
                       ) : (
                         <button
                           onClick={() => handleSubmitAssignment(assignment)}
-                          className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                          className="flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                         >
                           <Send className="h-4 w-4 mr-2" />
                           Submit Assignment
                         </button>
                       )}
-                      <button className="px-4 py-2 text-gray-600 hover:text-blue-600">
+                      <button className="flex items-center px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 hover:text-blue-600 transition-colors duration-200 font-medium">
                         <Download className="h-4 w-4 mr-2" />
                         Download
                       </button>
@@ -391,14 +504,15 @@ const TraineeAssignments = () => {
                       <p className="text-gray-600 bg-white p-3 rounded-lg border">{assignment.feedback}</p>
                     </div>
 
-                    <div className="flex space-x-3">
+                    <div className="flex items-center justify-start space-x-4 mt-4">
                       <button
                         onClick={() => handleViewFeedback(assignment)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
                       >
+                        <Eye className="h-4 w-4 mr-2" />
                         View Details
                       </button>
-                      <button className="px-4 py-2 text-gray-600 hover:text-blue-600">
+                      <button className="flex items-center px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 hover:text-blue-600 transition-colors duration-200 font-medium">
                         <Download className="h-4 w-4 mr-2" />
                         Download
                       </button>

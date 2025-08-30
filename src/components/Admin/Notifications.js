@@ -205,7 +205,7 @@ const Notifications = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4 mr-2" />
           Send Notification
@@ -283,7 +283,7 @@ const Notifications = () => {
                   {notification.status === 'scheduled' && (
                     <button
                       onClick={() => sendNotification(notification.id)}
-                      className="text-green-600 hover:text-green-900"
+                      className="flex items-center text-green-600 hover:text-green-900"
                       title="Send Now"
                     >
                       <Send className="w-4 h-4" />
@@ -291,13 +291,13 @@ const Notifications = () => {
                   )}
                   <button
                     onClick={() => handleEditNotification(notification)}
-                    className="text-primary-600 hover:text-primary-900"
+                    className="flex items-center text-primary-600 hover:text-primary-900"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDeleteNotification(notification.id)}
-                    className="text-red-600 hover:text-red-900"
+                    className="flex items-center text-red-600 hover:text-red-900"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -367,11 +367,11 @@ const Notifications = () => {
 
               {/* Notification Actions */}
               <div className="flex space-x-2">
-                <button className="btn-secondary flex-1">
+                <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Eye className="w-4 h-4 mr-1" />
                   View Details
                 </button>
-                <button className="btn-primary flex-1">
+                <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Users className="w-4 h-4 mr-1" />
                   Manage Recipients
                 </button>
@@ -496,13 +496,13 @@ const Notifications = () => {
                       scheduledTime: ''
                     });
                   }}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={editingNotification ? handleUpdateNotification : handleAddNotification}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   {editingNotification ? 'Update Notification' : 'Send Notification'}
                 </button>

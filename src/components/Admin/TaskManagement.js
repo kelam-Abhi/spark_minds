@@ -202,7 +202,7 @@ const TaskManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4 mr-2" />
           Create New Task
@@ -279,19 +279,19 @@ const TaskManagement = () => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => toggleTaskStatus(task.id)}
-                    className={task.status === 'active' ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'}
+                    className={`flex items-center ${task.status === 'active' ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'}`}
                   >
                     {task.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   </button>
                   <button
                     onClick={() => handleEditTask(task)}
-                    className="text-primary-600 hover:text-primary-900"
+                    className="flex items-center text-primary-600 hover:text-primary-900"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDeleteTask(task.id)}
-                    className="text-red-600 hover:text-red-900"
+                    className="flex items-center text-red-600 hover:text-red-900"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -365,11 +365,11 @@ const TaskManagement = () => {
 
               {/* Task Actions */}
               <div className="flex space-x-2">
-                <button className="btn-secondary flex-1">
+                <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Eye className="w-4 h-4 mr-1" />
                   View Details
                 </button>
-                <button className="btn-primary flex-1">
+                <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                   <Users className="w-4 h-4 mr-1" />
                   Manage Submissions
                 </button>
@@ -509,13 +509,13 @@ const TaskManagement = () => {
                       totalTrainees: 0
                     });
                   }}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={editingTask ? handleUpdateTask : handleAddTask}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   {editingTask ? 'Update Task' : 'Create Task'}
                 </button>

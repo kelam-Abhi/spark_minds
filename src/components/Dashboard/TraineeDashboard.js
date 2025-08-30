@@ -11,7 +11,6 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { RadialBarChart, RadialBar, ResponsiveContainer, Tooltip } from 'recharts';
-import magantiLogo from '../../Logo/maganti_logo.png';
 
 const TraineeDashboard = () => {
   // Mock data
@@ -67,29 +66,17 @@ const TraineeDashboard = () => {
     <div className="p-6 space-y-6">
       {/* Header with Logo */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          {/* Maganti Logo */}
-          <div className="flex items-center justify-center">
-            <img 
-              src={magantiLogo} 
-              alt="Maganti IT's SPARKMINDS Logo" 
-              className="h-16 w-auto"
-            />
-          </div>
-          
-          {/* Dashboard Title */}
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Trainee Dashboard</h1>
-            <p className="text-gray-600">Track your learning progress and upcoming activities</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Trainee Dashboard</h1>
+          <p className="text-gray-600">Track your learning progress and upcoming activities</p>
         </div>
         
         <div className="flex space-x-3">
-          <button className="btn-secondary">
+          <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
             <Download className="w-4 h-4 mr-2" />
             Download Materials
           </button>
-          <button className="btn-primary">
+          <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
             <BookOpen className="w-4 h-4 mr-2" />
             View Courses
           </button>
@@ -121,11 +108,11 @@ const TraineeDashboard = () => {
               </div>
             </div>
             <div className="mt-4 flex space-x-2">
-              <button className="btn-secondary flex-1">
+              <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                 <Eye className="w-4 h-4 mr-1" />
                 View Course
               </button>
-              <button className="btn-primary flex-1">
+              <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex-1">
                 <Play className="w-4 h-4 mr-1" />
                 Continue
               </button>
@@ -163,7 +150,7 @@ const TraineeDashboard = () => {
                     href={classItem.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-primary"
+                    className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                   >
                     <ExternalLink className="w-4 h-4 mr-1" />
                     Join
@@ -200,7 +187,7 @@ const TraineeDashboard = () => {
                   </div>
                 </div>
               </div>
-              <button className="btn-primary">
+              <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <Eye className="w-4 h-4 mr-1" />
                 Start Task
               </button>

@@ -253,11 +253,17 @@ const AdminDashboard = () => {
             <p className="text-gray-600">Manage your learning management system</p>
           </div>
           <div className="flex space-x-3">
-            <button className="btn-secondary" onClick={handleAddUser}>
+            <button 
+              className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
+              onClick={handleAddUser}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add User
             </button>
-            <button className="btn-primary" onClick={handleCreateCourse}>
+            <button 
+              className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
+              onClick={handleCreateCourse}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Create Course
             </button>

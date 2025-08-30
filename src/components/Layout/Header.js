@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Menu, Search, Bell, User, BookOpen, CheckCircle, AlertCircle, Info, Clock, X, Eye, EyeOff } from 'lucide-react';
+import { Menu, Bell, User, BookOpen, CheckCircle, AlertCircle, Info, Clock, X, Eye, EyeOff, LogOut } from 'lucide-react';
 import magantiLogo from '../../Logo/maganti_logo.png';
 
 const Header = ({ onMenuToggle }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -45,6 +48,7 @@ const Header = ({ onMenuToggle }) => {
     }
   ]);
   const notificationRef = useRef(null);
+  const profileRef = useRef(null);
   const [notificationsViewed, setNotificationsViewed] = useState(false);
 
   // Example: Simulate new notifications arriving (for demo purposes)
@@ -55,6 +59,29 @@ const Header = ({ onMenuToggle }) => {
       setNotificationsViewed(false);
     }
   }, [notifications]);
+
+  // Handle profile navigation
+  const handleProfileClick = () => {
+    if (user?.role === 'admin') {
+      navigate('/admin-dashboard/profile');
+    } else if (user?.role === 'mentor') {
+      navigate('/mentor-dashboard/profile');
+    } else if (user?.role === 'trainee') {
+      navigate('/trainee-dashboard/profile');
+    }
+    setShowProfileDropdown(false);
+  };
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout failed:', error);
+      window.location.href = '/login';
+    }
+  };
 
   // Add new notification for testing (in real app, this would come from server)
   const addTestNotification = () => {
@@ -76,6 +103,20 @@ const Header = ({ onMenuToggle }) => {
     const handleClickOutside = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
       }
     };
 
@@ -170,19 +211,7 @@ const Header = ({ onMenuToggle }) => {
           </div>
         </div>
 
-        {/* Center: Search Bar */}
-        <div className="flex-1 max-w-lg mx-8">
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search courses, users, task"
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
-            />
-          </div>
-        </div>
+
 
         {/* Right side: Notifications and User Profile */}
         <div className="flex items-center space-x-4">
@@ -305,15 +334,44 @@ const Header = ({ onMenuToggle }) => {
           </div>
 
           {/* User profile */}
-          <div className="flex items-center space-x-3">
-            <img
-              src={user?.avatar || user?.profilePhoto || 'https://via.placeholder.com/32'}
-              alt={user?.name || 'User'}
-              className="h-8 w-8 rounded-full border-2 border-gray-200 object-cover"
-            />
-            <div className="hidden sm:block">
-              <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin User'}</p>
-              <p className="text-xs text-gray-500 capitalize">{user?.role || 'Admin'}</p>
+          <div className="flex items-center space-x-3" ref={profileRef}>
+            <div className="relative">
+              <button
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <img
+                  src={user?.avatar || user?.profilePhoto || 'https://via.placeholder.com/32'}
+                  alt={user?.name || 'User'}
+                  className="h-8 w-8 rounded-full border-2 border-gray-200 object-cover"
+                />
+                <div className="hidden sm:block text-left">
+                  <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin User'}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user?.role || 'Admin'}</p>
+                </div>
+              </button>
+
+              {/* Profile Dropdown */}
+              {showProfileDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                  <div className="py-1">
+                    <button
+                      onClick={handleProfileClick}
+                      className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <User className="mr-3 h-4 w-4 text-gray-500" />
+                      Profile
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <LogOut className="mr-3 h-4 w-4 text-gray-500" />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

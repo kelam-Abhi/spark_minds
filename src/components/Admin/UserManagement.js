@@ -64,11 +64,19 @@ const UserManagement = () => {
     role: 'trainee',
     department: '',
     phone: '',
-    joinDate: ''
+    joinDate: '',
+    enrolledCourse: '',
+    assignedMentor: ''
   });
 
   const handleAddUser = () => {
     if (newUser.name && newUser.email && newUser.department) {
+      // For trainees, require course and mentor
+      if (newUser.role === 'trainee' && (!newUser.enrolledCourse || !newUser.assignedMentor)) {
+        alert('For trainees, both course and mentor are required.');
+        return;
+      }
+      
       const user = {
         id: users.length + 1,
         ...newUser,
@@ -77,7 +85,7 @@ const UserManagement = () => {
         joinDate: newUser.joinDate || new Date().toISOString().split('T')[0]
       };
       setUsers([...users, user]);
-      setNewUser({ name: '', email: '', role: 'trainee', department: '', phone: '', joinDate: '' });
+      setNewUser({ name: '', email: '', role: 'trainee', department: '', phone: '', joinDate: '', enrolledCourse: '', assignedMentor: '' });
       setShowAddModal(false);
     }
   };
@@ -90,9 +98,15 @@ const UserManagement = () => {
 
   const handleUpdateUser = () => {
     if (editingUser && newUser.name && newUser.email && newUser.department) {
+      // For trainees, require course and mentor
+      if (newUser.role === 'trainee' && (!newUser.enrolledCourse || !newUser.assignedMentor)) {
+        alert('For trainees, both course and mentor are required.');
+        return;
+      }
+      
       setUsers(users.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
       setEditingUser(null);
-      setNewUser({ name: '', email: '', role: 'trainee', department: '', phone: '', joinDate: '' });
+      setNewUser({ name: '', email: '', role: 'trainee', department: '', phone: '', joinDate: '', enrolledCourse: '', assignedMentor: '' });
       setShowAddModal(false);
     }
   };
@@ -144,7 +158,7 @@ const UserManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <UserPlus className="w-4 h-4 mr-2" />
           Add New User
@@ -206,7 +220,7 @@ const UserManagement = () => {
                   Role
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Department
+                  Course/Mentor
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -242,7 +256,14 @@ const UserManagement = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.department}
+                    {user.role === 'trainee' ? (
+                      <div>
+                        <div className="font-medium text-blue-600">{user.enrolledCourse || 'Not Assigned'}</div>
+                        <div className="text-xs text-gray-500">Mentor: {user.assignedMentor || 'Not Assigned'}</div>
+                      </div>
+                    ) : (
+                      user.department
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.status)}`}>
@@ -342,6 +363,44 @@ const UserManagement = () => {
                   </select>
                 </div>
 
+                {newUser.role === 'trainee' && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Enrolled Course *</label>
+                      <select
+                        value={newUser.enrolledCourse}
+                        onChange={(e) => setNewUser({...newUser, enrolledCourse: e.target.value})}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        required
+                      >
+                        <option value="">Select Course</option>
+                        <option value="React Development">React Development</option>
+                        <option value="Testing Fundamentals">Testing Fundamentals</option>
+                        <option value="DotNet Development">DotNet Development</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                        <option value="AIML Basics">AIML Basics</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Assigned Mentor *</label>
+                      <select
+                        value={newUser.assignedMentor}
+                        onChange={(e) => setNewUser({...newUser, assignedMentor: e.target.value})}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        required
+                      >
+                        <option value="">Select Mentor</option>
+                        <option value="Dr. Sarah Johnson">Dr. Sarah Johnson (React)</option>
+                        <option value="Prof. Mike Chen">Prof. Mike Chen (Testing)</option>
+                        <option value="Prof. David Wilson">Prof. David Wilson (DotNet)</option>
+                        <option value="Dr. Emily Brown">Dr. Emily Brown (Cloud)</option>
+                        <option value="Prof. Alex Kumar">Prof. Alex Kumar (AIML)</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Phone</label>
                   <input
@@ -371,13 +430,13 @@ const UserManagement = () => {
                     setEditingUser(null);
                     setNewUser({ name: '', email: '', role: 'trainee', department: '', phone: '', joinDate: '' });
                   }}
-                  className="btn-secondary"
+                  className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={editingUser ? handleUpdateUser : handleAddUser}
-                  className="btn-primary"
+                  className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   {editingUser ? 'Update User' : 'Add User'}
                 </button>

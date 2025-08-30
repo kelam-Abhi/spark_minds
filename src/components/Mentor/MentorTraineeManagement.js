@@ -94,7 +94,9 @@ const MentorTraineeManagement = () => {
     course: '',
     stage: '',
     department: '',
-    joinDate: ''
+    joinDate: '',
+    enrolledCourse: '',
+    assignedMentor: ''
   });
 
   const courses = [
@@ -120,6 +122,12 @@ const MentorTraineeManagement = () => {
 
   const handleAddTrainee = () => {
     if (newTrainee.name && newTrainee.email && newTrainee.course && newTrainee.stage) {
+      // Ensure trainee is assigned to a mentor
+      if (!newTrainee.assignedMentor) {
+        alert('Mentor assignment is required for trainees.');
+        return;
+      }
+      
       const trainee = {
         id: trainees.length + 1,
         ...newTrainee,
@@ -127,7 +135,7 @@ const MentorTraineeManagement = () => {
         progress: 0,
         lastActive: 'Just now',
         avatar: 'https://via.placeholder.com/40',
-        mentor: 'John Mentor',
+        mentor: newTrainee.assignedMentor,
         completedTasks: 0,
         totalTasks: 0,
         averageScore: 0,
@@ -141,7 +149,9 @@ const MentorTraineeManagement = () => {
         course: '',
         stage: '',
         department: '',
-        joinDate: ''
+        joinDate: '',
+        enrolledCourse: '',
+        assignedMentor: ''
       });
       setShowAddModal(false);
     }
@@ -155,6 +165,12 @@ const MentorTraineeManagement = () => {
 
   const handleUpdateTrainee = () => {
     if (editingTrainee && newTrainee.name && newTrainee.email && newTrainee.course && newTrainee.stage) {
+      // Ensure trainee is assigned to a mentor
+      if (!newTrainee.assignedMentor) {
+        alert('Mentor assignment is required for trainees.');
+        return;
+      }
+      
       setTrainees(trainees.map(t => t.id === editingTrainee.id ? { ...t, ...newTrainee } : t));
       setEditingTrainee(null);
       setNewTrainee({
@@ -164,7 +180,9 @@ const MentorTraineeManagement = () => {
         course: '',
         stage: '',
         department: '',
-        joinDate: ''
+        joinDate: '',
+        enrolledCourse: '',
+        assignedMentor: ''
       });
       setShowAddModal(false);
     }
@@ -398,9 +416,9 @@ const MentorTraineeManagement = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{trainee.course}</div>
+                      <div className="text-sm font-medium text-blue-600">{trainee.course}</div>
                       <div className="text-sm text-gray-500">{trainee.stage}</div>
-                      <div className="text-sm text-gray-500">{trainee.department}</div>
+                      <div className="text-sm text-gray-500">Mentor: {trainee.assignedMentor || trainee.mentor}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -482,7 +500,9 @@ const MentorTraineeManagement = () => {
                     course: '',
                     stage: '',
                     department: '',
-                    joinDate: ''
+                    joinDate: '',
+                    enrolledCourse: '',
+                    assignedMentor: ''
                   });
                 }}
                 className="text-gray-400 hover:text-gray-600"
@@ -576,19 +596,24 @@ const MentorTraineeManagement = () => {
                   </select>
                 </div>
 
+
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Department
+                    Assigned Mentor *
                   </label>
                   <select
-                    value={newTrainee.department}
-                    onChange={(e) => setNewTrainee({...newTrainee, department: e.target.value})}
+                    value={newTrainee.assignedMentor}
+                    onChange={(e) => setNewTrainee({...newTrainee, assignedMentor: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
                   >
-                    <option value="">Select Department</option>
-                    {departments.map(dept => (
-                      <option key={dept} value={dept}>{dept}</option>
-                    ))}
+                    <option value="">Select Mentor</option>
+                    <option value="Dr. Sarah Johnson">Dr. Sarah Johnson (React)</option>
+                    <option value="Prof. Mike Chen">Prof. Mike Chen (Testing)</option>
+                    <option value="Prof. David Wilson">Prof. David Wilson (DotNet)</option>
+                    <option value="Dr. Emily Brown">Dr. Emily Brown (Cloud)</option>
+                    <option value="Prof. Alex Kumar">Prof. Alex Kumar (AIML)</option>
                   </select>
                 </div>
               </div>
@@ -606,7 +631,9 @@ const MentorTraineeManagement = () => {
                     course: '',
                     stage: '',
                     department: '',
-                    joinDate: ''
+                    joinDate: '',
+                    enrolledCourse: '',
+                    assignedMentor: ''
                   });
                 }}
                 className="btn-secondary"

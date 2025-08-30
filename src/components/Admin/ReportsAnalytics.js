@@ -106,7 +106,7 @@ const ReportsAnalytics = () => {
             <option value="aiml">AIML</option>
             <option value="dotnet">DotNet</option>
           </select>
-          <button className="btn-primary">
+          <button className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
             <Download className="w-4 h-4 mr-2" />
             Export Report
           </button>

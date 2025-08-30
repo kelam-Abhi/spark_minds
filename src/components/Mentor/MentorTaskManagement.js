@@ -242,7 +242,7 @@ const MentorTaskManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary flex items-center"
+          className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4 mr-2" />
           Create Task
@@ -434,13 +434,13 @@ const MentorTaskManagement = () => {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEditTask(task)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="flex items-center text-blue-600 hover:text-blue-900"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteTask(task.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="flex items-center text-red-600 hover:text-red-900"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -489,7 +489,7 @@ const MentorTaskManagement = () => {
                     attachments: []
                   });
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="flex items-center text-gray-400 hover:text-gray-600"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -664,13 +664,13 @@ const MentorTaskManagement = () => {
                     attachments: []
                   });
                 }}
-                className="btn-secondary"
+                className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               >
                 Cancel
               </button>
               <button
                 onClick={editingTask ? handleUpdateTask : handleAddTask}
-                className="btn-primary"
+                className="flex items-center bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               >
                 {editingTask ? 'Update Task' : 'Create Task'}
               </button>

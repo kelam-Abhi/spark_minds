@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { 
   User, 
   Mail, 
@@ -28,6 +29,7 @@ import {
 } from 'lucide-react';
 
 const TraineeProfile = () => {
+  const { user, updateUserProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [imageSource, setImageSource] = useState('upload'); // 'upload' or 'camera'
@@ -38,18 +40,18 @@ const TraineeProfile = () => {
   const [stream, setStream] = useState(null);
 
   const [profile, setProfile] = useState({
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@maganti.com',
+    name: user?.name || 'Sarah Johnson',
+    email: user?.email || 'sarah.johnson@maganti.com',
     phone: '+1 (555) 987-6543',
-    role: 'Trainee',
-    department: 'React Development',
+    role: user?.role || 'Trainee',
+    department: user?.department || 'React Development',
     location: 'New York, NY',
     joinDate: '2024-01-15',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+    avatar: user?.avatar || 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     bio: 'Passionate about web development and eager to learn React.js. Currently enrolled in the React Development course and making great progress.',
     currentCourse: 'React Development - Intermediate',
     mentor: 'John Mentor',
-    progress: 75,
+    progress: user?.progress || 75,
     goals: ['Master React Hooks', 'Build a full-stack application', 'Learn state management'],
     interests: ['Frontend Development', 'UI/UX Design', 'Mobile Apps'],
     education: 'Bachelor of Computer Science, NYU',
@@ -73,8 +75,45 @@ const TraineeProfile = () => {
 
   const [editProfile, setEditProfile] = useState({ ...profile });
 
+  // Sync profile with AuthContext when component mounts or user changes
+  useEffect(() => {
+    if (user && profile) {
+      // Update local profile with user data from AuthContext
+      setProfile(prev => ({
+        ...prev,
+        name: user.name || prev.name,
+        email: user.email || prev.email,
+        role: user.role || prev.role,
+        department: user.department || prev.department,
+        avatar: user.avatar || prev.avatar,
+        progress: user.progress || prev.progress
+      }));
+      
+      // Also update edit profile
+      setEditProfile(prev => ({
+        ...prev,
+        name: user.name || prev.name,
+        email: user.email || prev.email,
+        role: user.role || prev.role,
+        department: user.department || prev.department,
+        avatar: user.avatar || prev.avatar,
+        progress: user.progress || prev.progress
+      }));
+    }
+  }, [user]);
+
   const handleSave = () => {
     setProfile(editProfile);
+    
+    // Sync profile changes with AuthContext to update header
+    updateUserProfile({
+      name: editProfile.name,
+      email: editProfile.email,
+      department: editProfile.department,
+      avatar: editProfile.avatar,
+      progress: editProfile.progress
+    });
+    
     setIsEditing(false);
   };
 
@@ -122,14 +161,21 @@ const TraineeProfile = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         console.log('File read successfully, updating profile...');
+        const newAvatar = e.target.result;
+        
+        // Update local state
         setEditProfile(prev => ({
           ...prev,
-          avatar: e.target.result
+          avatar: newAvatar
         }));
         setProfile(prev => ({
           ...prev,
-          avatar: e.target.result
+          avatar: newAvatar
         }));
+        
+        // Sync with AuthContext to update header
+        updateUserProfile({ avatar: newAvatar });
+        
         setShowImageModal(false);
       };
       reader.readAsDataURL(file);
@@ -203,6 +249,9 @@ const TraineeProfile = () => {
           ...prev,
           avatar: imageDataUrl
         }));
+        
+        // Sync with AuthContext to update header
+        updateUserProfile({ avatar: imageDataUrl });
         
         // Stop camera and close modal
         stopCamera();
